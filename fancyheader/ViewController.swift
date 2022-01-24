@@ -98,8 +98,6 @@ extension ViewController: UICollectionViewDelegate {
 
         } else { // scrolling up
 
-            print("== scrolling up")
-
             // parallax
             let imageTranslationY = relativeContentOffsetY * Constants.imageParallaxFactor
             headerImageView.transform = CGAffineTransform(translationX: 0, y: -imageTranslationY)
@@ -107,22 +105,17 @@ extension ViewController: UICollectionViewDelegate {
             let titleTranslationY = relativeContentOffsetY * Constants.titleParallaxFactor
             headerTitleLabel.transform = CGAffineTransform(translationX: 0, y: -titleTranslationY)
 
-            // TODO: fading title
-//            let defaultImageViewMaxY = headerImageView.frame.maxY + imageTranslationY
-//            let defaultTitleLabelMinY = headerTitleLabel.frame.minY + imageTranslationY
-//            let defaultDistance = defaultImageViewMaxY - defaultTitleLabelMinY
-//            print("defaultImageViewMaxY \(defaultImageViewMaxY) - defaultTitleLabelMinY \(defaultTitleLabelMinY) = defaultDistance \(defaultDistance)")
-//
-//            let remainder = abs(contentOffsetY) - headerTitleLabel.frame.minY
-//            print("remainder \(remainder)")
-//
-//            var ratio: CGFloat = 0
-//            if remainder > 0 {
-//                ratio = defaultDistance / remainder
-//            }
-//            print("ratio \(ratio)")
-            let alpha: CGFloat = 1
-            headerTitleLabel.alpha = alpha
+            // fade
+            let relativeY = abs(min(0, contentOffsetY))
+            let maxY = headerContainerView.frame.maxY
+//            let headerAlpha: CGFloat = relativeY / maxY
+
+            let titleMinY = headerTitleLabel.frame.minY
+            let titleYDistance = round(relativeY - titleMinY)
+            let titleOriginalMinY = titleMinY + titleTranslationY
+            let titleOriginalYDistance = round(maxY - titleOriginalMinY)
+            let titleAlpha: CGFloat = max(0, titleYDistance) / titleOriginalYDistance
+            headerTitleLabel.alpha = titleAlpha
         }
     }
 }
