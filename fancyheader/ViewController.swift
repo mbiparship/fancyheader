@@ -14,6 +14,7 @@ class ViewController: UIViewController {
     private enum Constants {
         static let imageParallaxFactor: CGFloat = 0.25
         static let titleParallaxFactor: CGFloat = 0.33
+        static let cornerRadius: CGFloat = 32
     }
 
     override func viewDidLoad() {
@@ -39,42 +40,13 @@ class ViewController: UIViewController {
         collectionView.contentInset.top = headerContainerView.bounds.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
     }
 
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        updateBackgroundView()
-    }
-
     private func setupBackgroundView() {
-        backgroundView.layer.cornerRadius = 40
+        backgroundView.layer.cornerRadius = Constants.cornerRadius
+        backgroundView.layer.cornerCurve = .continuous
         backgroundView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         backgroundView.layer.masksToBounds = true
     }
 
-    private func updateBackgroundView() {
-
-// B
-//        let leftCorner = CGRect(x: 0, y: 0, width: 40, height: 20)
-//        let leftCornerPath = UIBezierPath(roundedRect: leftCorner, byRoundingCorners: [.topLeft], cornerRadii: CGSize(width: 40, height: 40))
-//
-//        let mask = CAShapeLayer()
-//        mask.path = leftCornerPath.cgPath
-//        backgroundView.layer.mask = mask
-
-// C
-//        let maskLayer = CAShapeLayer()
-//        maskLayer.fillRule = CAShapeLayerFillRule.evenOdd
-//        maskLayer.fillColor = UIColor.black.cgColor
-//
-//        let roundedRect = CGRect(x: 0, y: 0, width: Constants.backgroundCornerRadii.width, height: Constants.backgroundCornerRadii.height)
-//
-//        let pathToOverlay = UIBezierPath(rect: backgroundView.bounds)
-//        pathToOverlay.append(UIBezierPath(rect: roundedRect))
-//        pathToOverlay.usesEvenOddFillRule = true
-//        maskLayer.path = pathToOverlay.cgPath
-//
-//        backgroundView.layer.mask = maskLayer
-
-    }
 }
 
 extension ViewController: UICollectionViewDataSource {
